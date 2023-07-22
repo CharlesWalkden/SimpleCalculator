@@ -6,7 +6,48 @@
         xmlns:local="clr-namespace:SimpleCalculator"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <StackPanel Margin="5">
+        <TextBlock Text="{Binding CurrentExpression, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="250" Height="30" HorizontalAlignment="Left" Foreground="Black"/>
+        <TextBlock Text="{Binding InputDisplay, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="250" Height="30" HorizontalAlignment="Left" Foreground="Black"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
 
-    </Grid>
+            <Button x:Name="seven" Content="7" Command="{Binding NumbersCommand}" CommandParameter="7" Width="50" Height="30" Grid.Column="0" Grid.Row="0"/>
+            <Button x:Name="eight" Content="8" Command="{Binding NumbersCommand}" CommandParameter="8" Width="50" Height="30" Grid.Column="1" Grid.Row="0"/>
+            <Button x:Name="nine" Content="9" Command="{Binding NumbersCommand}" CommandParameter="9" Width="50" Height="30" Grid.Column="2" Grid.Row="0"/>
+            <Button x:Name="multiply" Content="*" Command="{Binding MultiplyCommand}" Width="50" Height="30" Grid.Column="3" Grid.Row="0"/>
+            <Button x:Name="delete" Content="Del" Command="{Binding DeleteCommand}" Width="50" Height="30" Grid.Column="4" Grid.Row="0"/>
+
+            <Button x:Name="four" Content="4" Command="{Binding NumbersCommand}" CommandParameter="4" Width="50" Height="30" Grid.Column="0" Grid.Row="1"/>
+            <Button x:Name="five" Content="5" Command="{Binding NumbersCommand}" CommandParameter="5" Width="50" Height="30" Grid.Column="1" Grid.Row="1"/>
+            <Button x:Name="six" Content="6" Command="{Binding NumbersCommand}" CommandParameter="6" Width="50" Height="30" Grid.Column="2" Grid.Row="1"/>
+            <Button x:Name="minus" Content="-" Command="{Binding SubtractCommand}" Width="50" Height="30" Grid.Column="3" Grid.Row="1"/>
+            <Button x:Name="divide" Content="/" Command="{Binding DivideCommand}" Width="50" Height="30" Grid.Column="4" Grid.Row="1"/>
+
+            <Button x:Name="one" Content="1" Command="{Binding NumbersCommand}" CommandParameter="1" Width="50" Height="30" Grid.Column="0" Grid.Row="2"/>
+            <Button x:Name="two" Content="2" Command="{Binding NumbersCommand}" CommandParameter="2" Width="50" Height="30" Grid.Column="1" Grid.Row="2"/>
+            <Button x:Name="three" Content="3" Command="{Binding NumbersCommand}" CommandParameter="3" Width="50" Height="30" Grid.Column="2" Grid.Row="2"/>
+            <Button x:Name="add" Content="+" Command="{Binding AddCommand}" Width="50" Height="30" Grid.Column="3" Grid.Row="2"/>
+
+            <Button x:Name="negpos" Content="+/-" Command="{Binding NegPosCommand}" Width="50" Height="30" Grid.Column="0" Grid.Row="3"/>
+            <Button x:Name="zero" Content="0" Command="{Binding NumbersCommand}" CommandParameter="0" Width="50" Height="30" Grid.Column="1" Grid.Row="3"/>
+            <Button x:Name="period" Content="." Command="{Binding NumbersCommand}" CommandParameter="." Width="50" Height="30" Grid.Column="2" Grid.Row="3"/>
+            <Button x:Name="equals" Content="=" Command="{Binding EqualCommand}" Width="50" Height="30" Grid.Column="3" Grid.Row="3"/>
+
+
+
+        </Grid>
+    </StackPanel>
 </Window>

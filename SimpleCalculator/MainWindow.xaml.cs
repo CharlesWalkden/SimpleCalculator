@@ -22,6 +22,7 @@ namespace SimpleCalculator
     {
         public MainWindow()
         {
+            DataContext = new CalculatorViewModel();
             InitializeComponent();
         }
     }
