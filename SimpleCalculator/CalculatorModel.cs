@@ -13,7 +13,6 @@ namespace SimpleCalculator
         private string currentInput = "0";
         private char? nextOperator;
         private bool replaceCurrentInput;
-        private bool equalOperatorSet;
 
         /// <summary>
         /// Appends a new input(number) to the current input. 

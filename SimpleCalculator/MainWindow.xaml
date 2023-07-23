@@ -3,14 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SimpleCalculator"
+        xmlns:local="clr-namespace:SimpleCalculator" 
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <StackPanel Margin="5">
-        <TextBlock Text="{Binding CurrentExpression, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="250" Height="30" HorizontalAlignment="Left" Foreground="Black"/>
-        <TextBlock Text="{Binding InputDisplay, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="250" Height="30" HorizontalAlignment="Left" Foreground="Black"/>
-        <Grid>
+        Title="Simple Calculator" Height="450" Width="800" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+    <StackPanel Margin="0" Background="#202020" >
+        <TextBlock Text="{Binding CurrentExpression, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="auto" Height="35" HorizontalAlignment="Stretch" TextAlignment="Right" Foreground="White"
+                   FontSize="18" Margin="5"/>
+        <local:CustomUserInputTextBlock Text="{Binding InputDisplay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="auto" Height="60" HorizontalAlignment="Stretch" 
+                   FontSize="52" Margin="5,1"/>
+        <Grid Margin="5">
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -24,29 +27,29 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="seven" Content="7" Command="{Binding NumbersCommand}" CommandParameter="7" Width="50" Height="30" Grid.Column="0" Grid.Row="0"/>
-            <Button x:Name="eight" Content="8" Command="{Binding NumbersCommand}" CommandParameter="8" Width="50" Height="30" Grid.Column="1" Grid.Row="0"/>
-            <Button x:Name="nine" Content="9" Command="{Binding NumbersCommand}" CommandParameter="9" Width="50" Height="30" Grid.Column="2" Grid.Row="0"/>
-            <Button x:Name="multiply" Content="*" Command="{Binding MultiplyCommand}" Width="50" Height="30" Grid.Column="3" Grid.Row="0"/>
-            <Button x:Name="delete" Content="Del" Command="{Binding DeleteCommand}" Width="50" Height="30" Grid.Column="4" Grid.Row="0"/>
-
-            <Button x:Name="four" Content="4" Command="{Binding NumbersCommand}" CommandParameter="4" Width="50" Height="30" Grid.Column="0" Grid.Row="1"/>
-            <Button x:Name="five" Content="5" Command="{Binding NumbersCommand}" CommandParameter="5" Width="50" Height="30" Grid.Column="1" Grid.Row="1"/>
-            <Button x:Name="six" Content="6" Command="{Binding NumbersCommand}" CommandParameter="6" Width="50" Height="30" Grid.Column="2" Grid.Row="1"/>
-            <Button x:Name="minus" Content="-" Command="{Binding SubtractCommand}" Width="50" Height="30" Grid.Column="3" Grid.Row="1"/>
-            <Button x:Name="divide" Content="/" Command="{Binding DivideCommand}" Width="50" Height="30" Grid.Column="4" Grid.Row="1"/>
-
-            <Button x:Name="one" Content="1" Command="{Binding NumbersCommand}" CommandParameter="1" Width="50" Height="30" Grid.Column="0" Grid.Row="2"/>
-            <Button x:Name="two" Content="2" Command="{Binding NumbersCommand}" CommandParameter="2" Width="50" Height="30" Grid.Column="1" Grid.Row="2"/>
-            <Button x:Name="three" Content="3" Command="{Binding NumbersCommand}" CommandParameter="3" Width="50" Height="30" Grid.Column="2" Grid.Row="2"/>
-            <Button x:Name="add" Content="+" Command="{Binding AddCommand}" Width="50" Height="30" Grid.Column="3" Grid.Row="2"/>
-
-            <Button x:Name="negpos" Content="+/-" Command="{Binding NegPosCommand}" Width="50" Height="30" Grid.Column="0" Grid.Row="3"/>
-            <Button x:Name="zero" Content="0" Command="{Binding NumbersCommand}" CommandParameter="0" Width="50" Height="30" Grid.Column="1" Grid.Row="3"/>
-            <Button x:Name="period" Content="." Command="{Binding NumbersCommand}" CommandParameter="." Width="50" Height="30" Grid.Column="2" Grid.Row="3"/>
-            <Button x:Name="equals" Content="=" Command="{Binding EqualCommand}" Width="50" Height="30" Grid.Column="3" Grid.Row="3"/>
-
-
+            <Button x:Name="clear" Content="C" Style="{StaticResource OperatorButton}" Command="{Binding ClearCommand}" Width="80" Height="60" Grid.Column="1" Grid.Row="0"/>
+            <Button x:Name="delete" Content="Del" Style="{StaticResource OperatorButton}" Command="{Binding DeleteCommand}" Width="80" Height="60" Grid.Column="2" Grid.Row="0"/>
+            <Button x:Name="divide" Content="/" Style="{StaticResource OperatorButton}" Command="{Binding DivideCommand}" Width="80" Height="60" Grid.Column="3" Grid.Row="0"/>
+            
+            <Button x:Name="seven" Content="7" Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="7" Width="80" Height="60" Grid.Column="0" Grid.Row="1"/>
+            <Button x:Name="eight" Content="8" Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="8" Width="80" Height="60" Grid.Column="1" Grid.Row="1"/>
+            <Button x:Name="nine" Content="9" Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="9" Width="80" Height="60" Grid.Column="2" Grid.Row="1"/>
+            <Button x:Name="multiply" Content="*" Style="{StaticResource OperatorButton}" Command="{Binding MultiplyCommand}" Width="80" Height="60" Grid.Column="3" Grid.Row="1"/>
+            
+            <Button x:Name="four" Content="4" Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="4" Width="80" Height="60" Grid.Column="0" Grid.Row="2"/>
+            <Button x:Name="five" Content="5" Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="5" Width="80" Height="60" Grid.Column="1" Grid.Row="2"/>
+            <Button x:Name="six" Content="6" Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="6" Width="80" Height="60" Grid.Column="2" Grid.Row="2"/>
+            <Button x:Name="minus" Content="-" Style="{StaticResource OperatorButton}" Command="{Binding SubtractCommand}" Width="80" Height="60" Grid.Column="3" Grid.Row="2"/>
+            
+            <Button x:Name="one" Content="1" Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="1" Width="80" Height="60" Grid.Column="0" Grid.Row="3"/>
+            <Button x:Name="two" Content="2" Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="2" Width="80" Height="60" Grid.Column="1" Grid.Row="3"/>
+            <Button x:Name="three" Content="3" Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="3" Width="80" Height="60" Grid.Column="2" Grid.Row="3"/>
+            <Button x:Name="add" Content="+" Style="{StaticResource OperatorButton}" Command="{Binding AddCommand}" Width="80" Height="60" Grid.Column="3" Grid.Row="3" />
+            
+            <Button x:Name="negpos" Content="+/-" Style="{StaticResource NumberButton}" Command="{Binding NegPosCommand}" Width="80" Height="60" Grid.Column="0" Grid.Row="4"/>
+            <Button x:Name="zero" Content="0" Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="0" Width="80" Height="60" Grid.Column="1" Grid.Row="4"/>
+            <Button x:Name="period" Content="." Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="." Width="80" Height="60" Grid.Column="2" Grid.Row="4"/>
+            <Button x:Name="equals" Content="=" Style="{StaticResource EqualButton}" Command="{Binding EqualCommand}" Width="80" Height="60" Grid.Column="3" Grid.Row="4"/>
 
         </Grid>
     </StackPanel>

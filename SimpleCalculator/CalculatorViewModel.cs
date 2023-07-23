@@ -16,7 +16,7 @@ namespace SimpleCalculator
         private CalculatorModel calculatorModel;
         
         private string? currentExpression { get; set; }
-        private string? inputDisplay { get; set; }  
+        private string? inputDisplay { get; set; }
 
         #endregion
 
@@ -56,7 +56,7 @@ namespace SimpleCalculator
         {
             calculatorModel = new CalculatorModel();
             currentExpression = string.Empty;
-            inputDisplay = string.Empty;
+            inputDisplay = "0";
             EqualCommand = new RelayCommand(Equal);
             AddCommand =  new RelayCommand(Add);
             SubtractCommand = new RelayCommand(Subtract);
@@ -111,7 +111,7 @@ namespace SimpleCalculator
         }
         private void Delete()
         {
-            calculatorModel.RemoveInput();
+            InputDisplay = calculatorModel.RemoveInput();
         }
         private void NegPos()
         {
