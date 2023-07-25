@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SimpleCalculator
 {
-    public class CalculatorModel
+    public class CalculatorModel : INotifyPropertyChanged
     {
         private string? currentExpressionDisplay;
         private string currentTotal = "";
@@ -14,45 +16,72 @@ namespace SimpleCalculator
         private char? nextOperator;
         private bool replaceCurrentInput;
 
+        public string? CurrentExpressionDisplay
+        {
+            get => currentExpressionDisplay;
+            set
+            {
+                if (currentExpressionDisplay == value)
+                    return;
+
+                currentExpressionDisplay = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string CurrentInput
+        {
+            get => currentInput;
+            set
+            {
+                if (currentInput == value)
+                    return;
+
+                currentInput = value;
+                OnPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Appends a new input(number) to the current input. 
         /// </summary>
         /// <param name="input">A number from 1-9 depending on the button pressed.</param>
-        /// <returns></returns>
-        public string AddInput(string input)
+        public void AddInput(string input)
         {
+            // If we try to add more that one dot, don't add it.
+            if (input == "." && CurrentInput.Contains('.'))
+                return;
             // If the current input is 0, replace it, otherwise, append to it.
-            currentInput = currentInput == "0" || replaceCurrentInput ? currentInput = input : currentInput += input;
+            CurrentInput = CurrentInput == "0" || replaceCurrentInput ? CurrentInput = input : CurrentInput += input;
             replaceCurrentInput = false;
-            return currentInput;
         }
 
         /// <summary>
         /// Removes the most recently added digit from the current input.
         /// </summary>
-        /// <returns>The amended input.</returns>
-        public string RemoveInput()
+        public void RemoveInput()
         {
             // If input is greater that 1 in length, remove a digit. Else replace it with a 0.
-            return currentInput = currentInput.Length > 1 ? currentInput.Remove(currentInput.Length - 1) : "0";
+            CurrentInput = CurrentInput.Length > 1 ? CurrentInput.Remove(CurrentInput.Length - 1) : "0";
         }
 
         /// <summary>
         /// Updates the current input value with the current total value.
         /// </summary>
-        /// <returns>The current input value.</returns>
-        public string UpdateCurrentInput()
+        public void SetCurrentInputAsTotal()
         { 
-            return currentInput = currentTotal;
+            CurrentInput = currentTotal;
         }
 
         /// <summary>
         /// Performs one of the operations (+ / * - =)
         /// </summary>
-        /// <param name="newOperator">The operations you want to perform.</param>
-        /// <returns>The display of the current expression</returns>
-        public string PerformOperation(char newOperator) 
+        /// <param name="newOperator">The operation you want to perform.</param>
+        public void PerformOperation(char newOperator) 
         {
+            if (newOperator == nextOperator)
+                return;
+
             string newTotal = "0";
 
             if (!string.IsNullOrEmpty(currentTotal))
@@ -66,20 +95,19 @@ namespace SimpleCalculator
 
             if (newOperator == '=')
             {
-                currentExpressionDisplay = $"{currentTotal} {nextOperator} {currentInput} =";
-                currentInput = newTotal;
-                newOperator = ' ';
+                CurrentExpressionDisplay = $"{currentTotal} {nextOperator} {CurrentInput} =";
+                
+                nextOperator = null;
             }
             else
             {
                 nextOperator = newOperator;
-                currentExpressionDisplay = $"{newTotal} {nextOperator}";
+                CurrentExpressionDisplay = $"{newTotal} {nextOperator}";
             }
 
             currentTotal = newTotal;
+            CurrentInput = newTotal;
             replaceCurrentInput = true;
-
-            return currentExpressionDisplay;
         }
         
         /// <summary>
@@ -89,40 +117,79 @@ namespace SimpleCalculator
         private string ValidateExpression()
         {
             double result;
-            if (string.IsNullOrEmpty(currentTotal))
-                return currentInput;
+            if (string.IsNullOrEmpty(currentTotal) || nextOperator == null)
+                return CurrentInput;
 
             switch (nextOperator)
             {
                 case '+':
                     {
-                        result = double.Parse(currentTotal) + double.Parse(currentInput);
+                        result = double.Parse(currentTotal) + double.Parse(CurrentInput);
                         break;
                     }
                 case '-':
                     {
-                        result = double.Parse(currentTotal) - double.Parse(currentInput);
+                        result = double.Parse(currentTotal) - double.Parse(CurrentInput);
                         break;
                     }
                 case '/':
                     {
-                        result = double.Parse(currentTotal) / double.Parse(currentInput);
+                        result = double.Parse(currentTotal) / double.Parse(CurrentInput);
                         break;
                     }
                 case '*':
                     {
-                        result = double.Parse(currentTotal) * double.Parse(currentInput);
+                        result = double.Parse(currentTotal) * double.Parse(CurrentInput);
                         break;
                     }
                 default:
-                    return "Error";
+                    result = 0;
+                    break;
 
             }
 
             return result.ToString();
         }
+
+        /// <summary>
+        /// Changes the input number from a negative number to a positive number or a positive number to a negative number.
+        /// </summary>
+        public void NegPosToggle()
+        {
+            if (CurrentInput.Contains('-'))
+            {
+                CurrentInput = CurrentInput.Substring(1, CurrentInput.Length -1);
+            }
+            else
+            {
+                CurrentInput = CurrentInput.Insert(0, "-");
+            }
+        }
+
+        /// <summary>
+        /// Clears and resets the calculator.
+        /// </summary>
+        public void ResetCalculator()
+        {
+            CurrentExpressionDisplay = string.Empty;
+            currentTotal = string.Empty;
+            CurrentInput = "0";
+            nextOperator = null;
+            replaceCurrentInput = false;
+        }
+
+        /// <summary>
+        /// Implementation of the INotifyPropertyChanged Interface.
+        /// </summary>
+        #region ProperyChanged
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName]string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
     }
-
-
-
 }

@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimpleCalculator" 
         mc:Ignorable="d"
-        Title="Simple Calculator" Height="450" Width="800" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+        Title="Simple Calculator" Height="450" Width="400" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
     <StackPanel Margin="0" Background="#202020" >
-        <TextBlock Text="{Binding CurrentExpression, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="auto" Height="35" HorizontalAlignment="Stretch" TextAlignment="Right" Foreground="White"
+        <TextBlock Text="{Binding CurrentExpression, UpdateSourceTrigger=PropertyChanged}" Width="auto" Height="35" HorizontalAlignment="Stretch" TextAlignment="Right" Foreground="White"
                    FontSize="18" Margin="5"/>
-        <local:CustomUserInputTextBlock Text="{Binding InputDisplay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="auto" Height="60" HorizontalAlignment="Stretch" 
+        <local:CustomUserInputTextBlock Text="{Binding InputDisplay, UpdateSourceTrigger=PropertyChanged}" Width="auto" Height="60" HorizontalAlignment="Stretch" 
                    FontSize="52" Margin="5,1"/>
         <Grid Margin="5">
             <Grid.RowDefinitions>

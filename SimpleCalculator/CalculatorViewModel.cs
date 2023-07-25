@@ -55,84 +55,93 @@ namespace SimpleCalculator
         public CalculatorViewModel()
         {
             calculatorModel = new CalculatorModel();
-            currentExpression = string.Empty;
-            inputDisplay = "0";
-            EqualCommand = new RelayCommand(Equal);
-            AddCommand =  new RelayCommand(Add);
-            SubtractCommand = new RelayCommand(Subtract);
-            DivideCommand = new RelayCommand(Divide);
-            MultiplyCommand = new RelayCommand(Multiple);
-            NumbersCommand = new RelayCommand<string>(Numbers);
-            DeleteCommand = new RelayCommand(Delete);
-            NegPosCommand = new RelayCommand(NegPos);
+            calculatorModel.PropertyChanged += CalculatorModel_PropertyChanged;
+
+            RegisterCommands();
         }
 
         #endregion
 
         #region Commands
 
-        public ICommand EqualCommand { get; set; }
-        public ICommand AddCommand { get; set; }
-        public ICommand SubtractCommand { get; set; }
-        public ICommand DivideCommand { get; set; }
-        public ICommand MultiplyCommand { get; set; }
-        public ICommand NumbersCommand { get; set; }
-        public ICommand DeleteCommand { get; set; }
-        public ICommand NegPosCommand { get; set; }
+        public ICommand? EqualCommand { get; set; }
+        public ICommand? AddCommand { get; set; }
+        public ICommand? SubtractCommand { get; set; }
+        public ICommand? DivideCommand { get; set; }
+        public ICommand? MultiplyCommand { get; set; }
+        public ICommand? NumbersCommand { get; set; }
+        public ICommand? DeleteCommand { get; set; }
+        public ICommand? NegPosCommand { get; set; }
+        public ICommand? ClearCommand { get; set; }
 
         #endregion
 
         #region Command Methods
 
+        private void RegisterCommands()
+        {
+            EqualCommand = new RelayCommand(Equal);
+            AddCommand = new RelayCommand(Add);
+            SubtractCommand = new RelayCommand(Subtract);
+            DivideCommand = new RelayCommand(Divide);
+            MultiplyCommand = new RelayCommand(Multiple);
+            NumbersCommand = new RelayCommand<string>(Numbers);
+            DeleteCommand = new RelayCommand(Delete);
+            NegPosCommand = new RelayCommand(NegPos);
+            ClearCommand = new RelayCommand(Clear);
+        }
+
         private void Equal()
         {
-            CurrentExpression = calculatorModel.PerformOperation('=');
-            InputDisplay = calculatorModel.UpdateCurrentInput();
+            calculatorModel.PerformOperation('=');
+            calculatorModel.SetCurrentInputAsTotal();
         }
         private void Add()
         {
-            CurrentExpression = calculatorModel.PerformOperation('+');
+            calculatorModel.PerformOperation('+');
         }
         private void Subtract()
         {
-            CurrentExpression =  calculatorModel.PerformOperation('-');
+            calculatorModel.PerformOperation('-');
         }
         private void Divide()
         {
-            CurrentExpression = calculatorModel.PerformOperation('/');
+            calculatorModel.PerformOperation('/');
         }
         private void Multiple()
         {
-            CurrentExpression = calculatorModel.PerformOperation('*');
+            calculatorModel.PerformOperation('*');
         }
         private void Numbers(string number)
         {
-            InputDisplay = calculatorModel.AddInput(number);
+            calculatorModel.AddInput(number);
         }
         private void Delete()
         {
-            InputDisplay = calculatorModel.RemoveInput();
+            calculatorModel.RemoveInput();
         }
         private void NegPos()
         {
-
+            calculatorModel.NegPosToggle();
+        }
+        private void Clear()
+        {
+            calculatorModel.ResetCalculator();
+            calculatorModel.AddInput("0");
         }
 
         #endregion
-
-
-
-
-
-
-
-
-
 
         /// <summary>
         /// Implementation of the INotifyPropertyChanged Interface.
         /// </summary>
         #region ProperyChanged
+
+        public void CalculatorModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            CurrentExpression = calculatorModel.CurrentExpressionDisplay;
+            InputDisplay = calculatorModel.CurrentInput;
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
