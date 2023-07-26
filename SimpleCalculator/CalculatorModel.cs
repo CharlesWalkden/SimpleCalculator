@@ -15,6 +15,7 @@ namespace SimpleCalculator
         private string currentInput = "0";
         private char? nextOperator;
         private bool replaceCurrentInput;
+        private const int inputLimit = 16;
 
         public string? CurrentExpressionDisplay
         {
@@ -48,9 +49,14 @@ namespace SimpleCalculator
         /// <param name="input">A number from 1-9 depending on the button pressed.</param>
         public void AddInput(string input)
         {
+            // Stop the input addition if the limit has been hit.
+            if (CurrentInput.Length == inputLimit)
+                return;
+
             // If we try to add more that one dot, don't add it.
             if (input == "." && CurrentInput.Contains('.'))
                 return;
+
             // If the current input is 0, replace it, otherwise, append to it.
             CurrentInput = CurrentInput == "0" && input != "." || replaceCurrentInput ? CurrentInput = input : CurrentInput += input;
             replaceCurrentInput = false;
