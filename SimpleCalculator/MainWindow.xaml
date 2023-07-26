@@ -6,12 +6,19 @@
         xmlns:local="clr-namespace:SimpleCalculator" 
         mc:Ignorable="d"
         Title="Simple Calculator" Height="450" Width="400" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
-    <StackPanel Margin="0" Background="#202020" >
-        <TextBlock Text="{Binding CurrentExpression, UpdateSourceTrigger=PropertyChanged}" Width="auto" Height="35" HorizontalAlignment="Stretch" TextAlignment="Right" Foreground="White"
-                   FontSize="18" Margin="5"/>
-        <local:CustomUserInputTextBlock Text="{Binding InputDisplay, UpdateSourceTrigger=PropertyChanged}" Width="auto" Height="60" HorizontalAlignment="Stretch" 
-                   FontSize="52" Margin="5,1"/>
-        <Grid Margin="5">
+    <Grid Margin="0" Background="#202020" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="340"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Text="{Binding CurrentExpression, UpdateSourceTrigger=PropertyChanged}" Width="auto" Height="35" TextAlignment="Right" Foreground="White"
+                   FontSize="15" Margin="5"/>
+        <local:CustomUserInputTextBlock Grid.Row="1" Text="{Binding InputDisplay, UpdateSourceTrigger=PropertyChanged}" Width="330" Height="60" FontSize="52" Margin="5,1"/>
+        <Grid Margin="5" Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -52,5 +59,5 @@
             <Button x:Name="equals" Content="=" Style="{StaticResource EqualButton}" Command="{Binding EqualCommand}" Width="80" Height="60" Grid.Column="3" Grid.Row="4"/>
 
         </Grid>
-    </StackPanel>
+    </Grid>
 </Window>

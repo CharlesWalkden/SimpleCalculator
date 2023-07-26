@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.DirectoryServices.ActiveDirectory;
+using System.Globalization;
 using System.Linq;
 using System.Printing;
 using System.Text;
@@ -9,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SimpleCalculator
 {
@@ -20,7 +22,8 @@ namespace SimpleCalculator
             this.DefaultStyleKey = typeof(CustomUserInputTextBlock);
             this.TextChanged += OnCustomTextChanged;
         }
-        
+
+        private const double DefaultFontSize = 52;
 
         private void OnCustomTextChanged(object sender, TextChangedEventArgs e)
         {
@@ -86,8 +89,72 @@ namespace SimpleCalculator
             {
                 stringResult = stringResult.Insert(0, "-");
             }
-
+            FormatText(stringResult);
             this.Text = stringResult;
+        }
+
+        /// <summary>
+        /// Formats the text and changes the font size to fix all the text in the textbox.
+        /// </summary>
+        private void FormatText(string text)
+        {
+            double fontSize = FontSize;
+            double textBoxWidth = ActualWidth == 0 ? Width : ActualWidth;
+            string formatText = text;
+            double textWidth = MeasureTextWidth(formatText);
+
+            // If the text does not fit.
+            if (textWidth > textBoxWidth)
+            {
+                // Loop through making the text smaller untill it does fit.
+                while (textWidth > textBoxWidth && fontSize > 1)
+                {
+                    fontSize--;
+                    SetFontSize(fontSize);
+                    textWidth = MeasureTextWidth(formatText);
+                }
+            }
+            // If the text does fit.
+            else
+            {
+                // Loop through and see if we can start increasing the size again.
+                while (textWidth < textBoxWidth && fontSize < DefaultFontSize)
+                {
+                    fontSize++;
+                    SetFontSize(fontSize);
+                    textWidth = MeasureTextWidth(formatText) + 5;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Measures a string
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns>The width of the measured string</returns>
+        private double MeasureTextWidth(string text)
+        {
+            var formattedText = new FormattedText(
+                text,
+                CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
+                new Typeface(FontFamily, FontStyle, FontWeight, FontStretch),
+                FontSize,
+                Foreground,
+                new NumberSubstitution(),
+                VisualTreeHelper.GetDpi(this).PixelsPerDip
+            );
+
+            return formattedText.Width;
+        }
+
+        /// <summary>
+        /// Sets the font size for this TextBox
+        /// </summary>
+        /// <param name="fontSize">The size to set the font</param>
+        private void SetFontSize(double fontSize)
+        {
+            FontSize = fontSize;
         }
     }
 }
