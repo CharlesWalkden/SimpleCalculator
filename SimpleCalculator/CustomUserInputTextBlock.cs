@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,21 +31,36 @@ namespace SimpleCalculator
             this.TextChanged += OnCustomTextChanged;
         }
 
+        /// <summary>
+        /// Add commas to the number added to the textbox
+        /// </summary>
         private void AddCommasToNumber()
         {
+            // Updated to take into account decimal numbers.
+            // Updated to take into account negative numbers.
             string text = this.Text;
+            bool isNegative = false;
+            if (text.StartsWith('-'))
+            {
+                isNegative = true;
+                text = text.TrimStart('-');
+            }
+
+            string[] decimalSplit = text.Split('.');
+
+            string integerNumbers = decimalSplit[0];
+            string decimalNumbers = decimalSplit.Length > 1 ? "." + decimalSplit[1] : "";
 
             // Figure out how many commas we will need
-            int numberOfCommas = (text.Length - 1) / 3;
-            char[] result = new char[text.Length + numberOfCommas];
+            int numberOfCommas = (integerNumbers.Length - 1) / 3;
+            char[] result = new char[integerNumbers.Length + numberOfCommas + decimalNumbers.Length];
 
             if (numberOfCommas == 0) return;
 
-            int numberIndex = text.Length - 1;
-            int newNumberIndex = result.Length - 1;
+            int numberIndex = integerNumbers.Length - 1;
+            int newNumberIndex = result.Length - 1 - decimalNumbers.Length;
 
-
-            for (int i = 0; i < text.Length; i++)
+            for (int i = 0; i < integerNumbers.Length; i++)
             {
                 if (i > 0 && i%3 == 0)
                 {
@@ -51,15 +68,26 @@ namespace SimpleCalculator
                     newNumberIndex--;
                 }
 
-                result[newNumberIndex] = text[numberIndex];
+                result[newNumberIndex] = integerNumbers[numberIndex];
 
                 numberIndex--;
                 newNumberIndex--;
             }
 
-            this.Text = new string(result);
+            // Add the decimals back in.
+            for (int i=0; i < decimalNumbers.Length; i++)
+            {
+                result[result.Length - 1 - i] = decimalNumbers[decimalNumbers.Length - 1 - i];
+            }
 
+            string stringResult = new string(result);
 
+            if (isNegative)
+            {
+                stringResult = stringResult.Insert(0, "-");
+            }
+
+            this.Text = stringResult;
         }
     }
 }

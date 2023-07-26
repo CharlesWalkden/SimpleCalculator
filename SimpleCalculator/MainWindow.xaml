@@ -29,12 +29,12 @@
 
             <Button x:Name="clear" Content="C" Style="{StaticResource OperatorButton}" Command="{Binding ClearCommand}" Width="80" Height="60" Grid.Column="1" Grid.Row="0"/>
             <Button x:Name="delete" Content="Del" Style="{StaticResource OperatorButton}" Command="{Binding DeleteCommand}" Width="80" Height="60" Grid.Column="2" Grid.Row="0"/>
-            <Button x:Name="divide" Content="/" Style="{StaticResource OperatorButton}" Command="{Binding DivideCommand}" Width="80" Height="60" Grid.Column="3" Grid.Row="0"/>
+            <Button x:Name="divide" Content="÷" Style="{StaticResource OperatorButton}" Command="{Binding DivideCommand}" Width="80" Height="60" Grid.Column="3" Grid.Row="0"/>
             
             <Button x:Name="seven" Content="7" Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="7" Width="80" Height="60" Grid.Column="0" Grid.Row="1"/>
             <Button x:Name="eight" Content="8" Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="8" Width="80" Height="60" Grid.Column="1" Grid.Row="1"/>
             <Button x:Name="nine" Content="9" Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="9" Width="80" Height="60" Grid.Column="2" Grid.Row="1"/>
-            <Button x:Name="multiply" Content="*" Style="{StaticResource OperatorButton}" Command="{Binding MultiplyCommand}" Width="80" Height="60" Grid.Column="3" Grid.Row="1"/>
+            <Button x:Name="multiply" Content="x" Style="{StaticResource OperatorButton}" Command="{Binding MultiplyCommand}" Width="80" Height="60" Grid.Column="3" Grid.Row="1"/>
             
             <Button x:Name="four" Content="4" Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="4" Width="80" Height="60" Grid.Column="0" Grid.Row="2"/>
             <Button x:Name="five" Content="5" Style="{StaticResource NumberButton}" Command="{Binding NumbersCommand}" CommandParameter="5" Width="80" Height="60" Grid.Column="1" Grid.Row="2"/>

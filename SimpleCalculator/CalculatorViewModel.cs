@@ -56,7 +56,7 @@ namespace SimpleCalculator
         {
             calculatorModel = new CalculatorModel();
             calculatorModel.PropertyChanged += CalculatorModel_PropertyChanged;
-
+            InputDisplay = "0";
             RegisterCommands();
         }
 
@@ -94,7 +94,6 @@ namespace SimpleCalculator
         private void Equal()
         {
             calculatorModel.PerformOperation('=');
-            calculatorModel.SetCurrentInputAsTotal();
         }
         private void Add()
         {
@@ -106,11 +105,11 @@ namespace SimpleCalculator
         }
         private void Divide()
         {
-            calculatorModel.PerformOperation('/');
+            calculatorModel.PerformOperation('÷');
         }
         private void Multiple()
         {
-            calculatorModel.PerformOperation('*');
+            calculatorModel.PerformOperation('x');
         }
         private void Numbers(string number)
         {
@@ -127,7 +126,6 @@ namespace SimpleCalculator
         private void Clear()
         {
             calculatorModel.ResetCalculator();
-            calculatorModel.AddInput("0");
         }
 
         #endregion

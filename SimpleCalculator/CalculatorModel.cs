@@ -52,7 +52,7 @@ namespace SimpleCalculator
             if (input == "." && CurrentInput.Contains('.'))
                 return;
             // If the current input is 0, replace it, otherwise, append to it.
-            CurrentInput = CurrentInput == "0" || replaceCurrentInput ? CurrentInput = input : CurrentInput += input;
+            CurrentInput = CurrentInput == "0" && input != "." || replaceCurrentInput ? CurrentInput = input : CurrentInput += input;
             replaceCurrentInput = false;
         }
 
@@ -66,24 +66,31 @@ namespace SimpleCalculator
         }
 
         /// <summary>
-        /// Updates the current input value with the current total value.
-        /// </summary>
-        public void SetCurrentInputAsTotal()
-        { 
-            CurrentInput = currentTotal;
-        }
-
-        /// <summary>
         /// Performs one of the operations (+ / * - =)
         /// </summary>
         /// <param name="newOperator">The operation you want to perform.</param>
         public void PerformOperation(char newOperator) 
         {
-            if (newOperator == nextOperator)
+            // If we have not selected another input after performing an operation,
+            // we just want to replace it instead of keep performing an operation.
+            // and then update the display with the new operation.
+            if (replaceCurrentInput)
+            {
+                if (newOperator != nextOperator)
+                {
+                    nextOperator = newOperator;
+                    CurrentExpressionDisplay = $"{currentTotal} {nextOperator}";
+                }
                 return;
+            }
 
-            string newTotal = "0";
+            // If we have nothing following on from a . remove it.
+            if (CurrentInput.EndsWith('.'))
+            {
+                CurrentInput = CurrentInput.TrimEnd('.');
+            }
 
+            string newTotal;
             if (!string.IsNullOrEmpty(currentTotal))
             {
                 newTotal = ValidateExpression().ToString(); 
@@ -93,10 +100,11 @@ namespace SimpleCalculator
                 newTotal = currentInput;
             }
 
+            // If the next operator is =, we need to change the format of the display and set the next operator to null as
+            // we are at the end of the expression.
             if (newOperator == '=')
             {
                 CurrentExpressionDisplay = $"{currentTotal} {nextOperator} {CurrentInput} =";
-                
                 nextOperator = null;
             }
             else
@@ -107,6 +115,8 @@ namespace SimpleCalculator
 
             currentTotal = newTotal;
             CurrentInput = newTotal;
+
+            // Set this flag to true to allow the user to start inputting a new number.
             replaceCurrentInput = true;
         }
         
@@ -132,12 +142,12 @@ namespace SimpleCalculator
                         result = double.Parse(currentTotal) - double.Parse(CurrentInput);
                         break;
                     }
-                case '/':
+                case '÷':
                     {
                         result = double.Parse(currentTotal) / double.Parse(CurrentInput);
                         break;
                     }
-                case '*':
+                case 'x':
                     {
                         result = double.Parse(currentTotal) * double.Parse(CurrentInput);
                         break;
@@ -176,6 +186,7 @@ namespace SimpleCalculator
             CurrentInput = "0";
             nextOperator = null;
             replaceCurrentInput = false;
+            AddInput("0");
         }
 
         /// <summary>
