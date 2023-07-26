@@ -50,7 +50,8 @@ namespace SimpleCalculator
         public void AddInput(string input)
         {
             // Stop the input addition if the limit has been hit.
-            if (CurrentInput.Length == inputLimit)
+            // Only want to do this if we are not replacing the current input.
+            if (CurrentInput.Length == inputLimit && !replaceCurrentInput)
                 return;
 
             // If we try to add more that one dot, don't add it.
